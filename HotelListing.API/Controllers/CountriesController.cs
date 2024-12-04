@@ -20,7 +20,6 @@ public class CountriesController : ControllerBase
         _countriesRepository = countriesRepository;
     }
 
-    // GET: api/Countries
     [HttpGet]
     public async Task<ActionResult<IEnumerable<GetCountryDto>>> GetCountries()
     {
@@ -29,9 +28,8 @@ public class CountriesController : ControllerBase
         return records;
     }
 
-    // GET: api/Countries/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<CountryDto>> GetCountry(int id)
+    public async Task<ActionResult<GetCountryDetailsDto>> GetCountry(int id)
     {
         var country = await _countriesRepository.GetCountryDetails(id);
 
@@ -40,13 +38,11 @@ public class CountriesController : ControllerBase
             return NotFound();
         }
 
-        CountryDto countryDto = _mapper.Map<CountryDto>(country);
+        GetCountryDetailsDto countryDto = _mapper.Map<GetCountryDetailsDto>(country);
 
         return countryDto;
     }
 
-    // PUT: api/Countries/5
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
     public async Task<IActionResult> PutCountry(int id, UpdateCountryDto updateCountryDto)
     {
@@ -83,8 +79,6 @@ public class CountriesController : ControllerBase
         return NoContent();
     }
 
-    // POST: api/Countries
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
     public async Task<ActionResult<Country>> PostCountry(CreateCountryDto countryDto)
     {
@@ -93,8 +87,7 @@ public class CountriesController : ControllerBase
 
         return CreatedAtAction("GetCountry", new { id = country.Id }, country);
     }
-
-    // DELETE: api/Countries/5
+    
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCountry(int id)
     {
